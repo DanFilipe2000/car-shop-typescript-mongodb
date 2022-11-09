@@ -52,7 +52,7 @@ describe('Cars Service', () => {
   before(async () => {
     sinon.stub(carsService, 'create').resolves(carsResultMock);
     sinon.stub(carsService, 'read').resolves(carsMock);
-    sinon.stub(carsService)
+    sinon.stub(carsService, 'readOne').resolves(carsResultMock);
   });
 
   after(()=>{
