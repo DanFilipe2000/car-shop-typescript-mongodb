@@ -12,5 +12,11 @@ const carsRouter = Router();
 carsRouter.post('/cars', (req, res, next) => {
   carsController.create(req, res, next);
 });
+carsRouter.get('/cars', (req, res, next) => {
+  carsController.read(req, res, next);
+});
+carsRouter.get('/cars/:id', (req, res, next) => {
+  carsController.readOne(req, res, next);
+});
 
 export default carsRouter;

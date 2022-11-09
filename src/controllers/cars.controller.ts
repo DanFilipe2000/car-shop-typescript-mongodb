@@ -13,4 +13,23 @@ export default class CarsController {
       next(error);
     }
   };
+
+  public read = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = await this.service.read();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public readOne = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const result = await this.service.readOne(id);
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

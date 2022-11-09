@@ -35,8 +35,7 @@ describe('CarsController', () => {
   })
 
   it('Verifica se o status 201 é retornado corretamente', async () => {
-    const result = await carsController.create(req, res, next);
+    await carsController.create(req, res, next);
     expect(res.status as sinon.SinonStub).to.be.eq(201);
   });
-
 });
