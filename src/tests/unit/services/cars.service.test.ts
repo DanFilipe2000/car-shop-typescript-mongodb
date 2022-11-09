@@ -75,32 +75,48 @@ describe('Cars Service', () => {
   });
 });
 
-describe('Cars Service', () => {
+describe('Cars Service Errors', () => {
   const carModel = new CarsModel();
   const carsService = new CarsService(carModel);
 
-  before(async () => {
-    sinon.stub(carsService, 'create');
-    sinon.stub(carsService, 'readOne');
-  });
-
-  after(()=>{
-    sinon.restore();
-  })
-
   it('Dispara um excessão quando algum dado recebido estiver errado', async () => {
+    let err;
     try {
       await carsService.create({});
     } catch (error) {
-      expect(error).to.be.instanceOf(ZodError);
+      err = error;
     }
+    expect(err).to.be.instanceOf(ZodError);
   })
 
   it('Dispara um excessão quando o id estiver errado', async () => {
+    let err;
     try {
       await carsService.readOne('iderrado');
     } catch (error) {
-      expect(error).to.be.instanceOf(ZodError);
+      err = error;
     }
+    expect(err).to.be.instanceOf(Error);
+  })
+
+  describe('Dispara um excessão quando o id estiver certo mas não for válido', async () => {
+    before(async () => {
+      sinon.stub(carsService, 'readOne').resolves(null);
+    });
+  
+    after(() => {
+      sinon.restore();
+    })
+
+    it('Verificando', async () => {
+      let err;
+    try {
+      await carsService.readOne('999999999999999999999999');
+    } catch (error: any) {
+      console.log(error);
+      err = error;
+    }
+    expect(err, 'error should be defined').to.be.undefined;
+    })
   })
 });

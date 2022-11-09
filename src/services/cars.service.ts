@@ -26,6 +26,22 @@ export default class CarsService implements IService<ICar> {
     if (!result) throw new Error(ErrorTypes.EntityNotFound);
     return result;
   }
+
+  public async update(id: string, obj: unknown): Promise<ICar | null> {
+    const zodParse = CarSchema.safeParse(obj);
+    if (!zodParse.success) throw zodParse.error;
+    if (id.length < 24) throw new Error(ErrorTypes.InvalidMongoId);
+    const result = await this._model.update(id, zodParse.data);
+    if (!result) throw new Error(ErrorTypes.EntityNotFound);
+    return result;
+  }
+
+  public async delete(id: string): Promise<ICar> {
+    if (id.length < 24) throw new Error(ErrorTypes.InvalidMongoId);
+    const result = await this._model.delete(id);
+    if (!result) throw new Error(ErrorTypes.EntityNotFound);
+    return result;
+  }
 }
 
 // Método safeParse retirado da documentação do Zod

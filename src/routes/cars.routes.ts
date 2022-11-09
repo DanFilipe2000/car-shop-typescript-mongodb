@@ -30,5 +30,19 @@ carsRouter.get('/cars/:id', async (req, res, next) => {
     next(error);
   }
 });
+carsRouter.put('/cars/:id', async (req, res, next) => {
+  try {
+    await carsController.update(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+carsRouter.delete('/cars/:id', async (req, res, next) => {
+  try {
+    await carsController.delete(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default carsRouter;
