@@ -9,14 +9,26 @@ const carsController = new CarsController(carService);
 
 const carsRouter = Router();
 
-carsRouter.post('/cars', (req, res, next) => {
-  carsController.create(req, res, next);
+carsRouter.post('/cars', async (req, res, next) => {
+  try {
+    await carsController.create(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
-carsRouter.get('/cars', (req, res, next) => {
-  carsController.read(req, res, next);
+carsRouter.get('/cars', async (req, res, next) => {
+  try {
+    await carsController.read(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
-carsRouter.get('/cars/:id', (req, res, next) => {
-  carsController.readOne(req, res, next);
+carsRouter.get('/cars/:id', async (req, res, next) => {
+  try {
+    await carsController.readOne(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default carsRouter;

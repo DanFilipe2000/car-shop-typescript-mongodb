@@ -15,6 +15,16 @@ const carMock = {
 	seatsQty: 2,
 }
 
+const carsResultMock = {
+	model: "Ferrari Maranello",
+	year: 1963,
+	color: "red",
+	buyValue: 3500000,
+	doorsQty: 2,
+	seatsQty: 2,
+	_id: "636ad96b90d18397cccbbbe4"
+}
+
 describe('CarsController', () => {
   const carsModel = new CarsModel();
   const carsService = new CarsService(carsModel);
@@ -35,7 +45,9 @@ describe('CarsController', () => {
   })
 
   it('Verifica se o status 201 é retornado corretamente', async () => {
-    await carsController.create(req, res, next);
-    expect(res.status as sinon.SinonStub).to.be.eq(201);
+    req.body = carMock;
+    await carsController.create(req, res);
+    expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
+    expect((res.json as sinon.SinonStub).calledWith(carsResultMock)).to.be.true;
   });
 });
