@@ -3,6 +3,9 @@ import chai from 'chai';
 import CarsModel from '../../../models/cars.model';
 import CarsService from '../../../services/cars.service';
 import { ZodError } from 'zod';
+import { ICar } from '../../../interfaces/ICar';
+import { carDoorsLtTwo } from '../../../../__tests__/utils/CarsMock';
+import { ErrorTypes } from '../../../errors/catalog';
 const { expect } = chai;
 
 const carMock = {
@@ -53,6 +56,8 @@ describe('Cars Service', () => {
     sinon.stub(carsService, 'create').resolves(carsResultMock);
     sinon.stub(carsService, 'read').resolves(carsMock);
     sinon.stub(carsService, 'readOne').resolves(carsResultMock);
+    sinon.stub(carsService, 'update').resolves(carsResultMock);
+    sinon.stub(carsService, 'delete').resolves(carMock);
   });
 
   after(()=>{
@@ -61,17 +66,27 @@ describe('Cars Service', () => {
 
   it('Retorna o carro criado na Model', async () => {
     const result = await carsService.create(carMock);
-    expect(result).to.be.eq(carsResultMock);
+    expect(result as ICar).to.be.eq(carsResultMock as ICar);
   });
 
   it('Retorna todos os carros da Model', async () => {
     const result = await carsService.read();
-    expect(result).to.be.eq(carsMock);
+    expect(result as ICar[]).to.be.eq(carsMock as ICar[]);
   });
 
   it('Retorna um unico carro baseado no id', async () => {
     const result = await carsService.readOne(carsResultMock._id);
     expect(result).to.be.eq(carsResultMock);
+  });
+
+  it('Retorna um unico carro baseado no id que foi atualizado', async () => {
+    const result = await carsService.update(carsResultMock._id, { ...carMock });
+    expect(result).to.be.eq(carsResultMock);
+  });
+
+  it('Retorna um unico carro baseado no id que foi deletado', async () => {
+    const result = await carsService.delete(carsResultMock._id);
+    expect(result).to.be.eq(carMock);
   });
 });
 
@@ -119,4 +134,42 @@ describe('Cars Service Errors', () => {
     expect(err, 'error should be defined').to.be.undefined;
     })
   })
+
+  it('Dispara um excessão na função update quando passado um id errado', async () => {
+    let error;
+
+    try {
+      await carsService.update('21', { ...carMock });
+    } catch (err: any) {
+      error = err
+    }
+
+    expect(error, 'error should be defined').not.to.be.undefined;
+    expect(error?.message).to.be.deep.equal(ErrorTypes.InvalidMongoId);
+  });
+
+  it('Quando o schema passado é inválido', async () => {
+    let error;
+
+    try {
+      await carsService.update('636ad96b90d18397cccbbbe4', {});
+    } catch (err: any) {
+      error = err
+    }
+
+    expect(error).to.be.instanceOf(ZodError);
+  });
+
+  it('Dispara uma excessão quando o id passado é inválido - Delete', async () => {
+    let error;
+
+    try {
+      await carsService.delete('12');
+    } catch (err: any) {
+      error = err
+    }
+
+    expect(error, 'error should be defined').not.to.be.undefined;
+    expect(error?.message).to.be.deep.equal(ErrorTypes.InvalidMongoId);
+  });
 });
