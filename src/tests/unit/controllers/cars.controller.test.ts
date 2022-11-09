@@ -119,6 +119,9 @@ describe('CarsController method ReadOne', () => {
   })
 
   it('Verifica se o status 200 é retornado corretamente', async () => {
+    req.params = {
+      id: '636ad96b90d18397cccbbbe4'
+    }
     await carsController.readOne(req, res);
     expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
     expect((res.json as sinon.SinonStub).calledWith(carsResultMock)).to.be.true;
