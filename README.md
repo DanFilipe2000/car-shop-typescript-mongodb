@@ -1,10 +1,10 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+**Sobre**
+
+Projeto sobre typescript e mongoDB criado durante o curso da Trybe. O intuito é por em prática os aprendizados criando uma API capaz de digitalizar os processos de uma loja de carros. Nela é possível cadastrar, modificar e apagar dados do banco.
+
+**Como rodar o projeto**
+
+Primeiro clone o projeto na sua máquina:
+···
+git clone 
+···
