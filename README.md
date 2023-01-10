@@ -5,6 +5,6 @@ Projeto sobre typescript e mongoDB criado durante o curso da Trybe. O intuito é
 **Como rodar o projeto**
 
 Primeiro clone o projeto na sua máquina:
-···
-git clone 
-···
+´´´
+git clone
+´´´
